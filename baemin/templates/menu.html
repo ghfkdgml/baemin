@@ -1,0 +1,15 @@
+{% extends "base.html"%}
+{% block body %}
+<div class="container">
+  <div class="col-sm-4">
+    <form enctype="multipart/form-data" method="post" action="">
+      <div>
+        {%csrf_token%}
+        {{ form }}
+      </div>
+      <button class="btn btn-default">메뉴 추가하기</button>
+  </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class='container' style="margin-top:56px">
+
+  <form method="post" class="form-signin" style="width: 100%;max-width: 330px;padding: 15px;margin: auto;">
+    {% csrf_token %}
+      <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
+      <input type="text" name="Id" class="form-control" placeholder="IDs" required="" autofocus="">
+      <input type="password" name="Password" class="form-control" placeholder="Password" required="">
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me" name="remember"> Remember me
+        </label>
+      </div>
+      <script>
+
+        {% if messages %}
+          {% for message in messages %}
+            alert('{{message}}');
+
+          {% endfor %}
+        {% endif %}
+      </script>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="ret()">Sign in</button>
+      <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+  </form>
+</div>
+
+
+
+{%endblock%}

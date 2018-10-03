@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+
+  <head>
+
+      <link rel="stylesheet" href='../static/css/base.css'>
+      <link rel="stylesheet" type="text/css" href='{% static "css/lib/bootstrap.min.css" %}'>
+      <link rel="stylesheet" type="text/css" href='{% static "css/lib/bootstrap.css" %}'>
+
+  </head>
+  <style>
+    .col-center{
+      margin-left:200px;
+      margin-right:200px;
+    }
+    h2{
+      display:inline;
+    }
+  </style>
+
+  <body>
+    <div style="height:60px;">
+      {% include "navbar.html" %}
+    </div>
+
+      {% block body %}
+      {% endblock %}
+
+
+
+  </body>
+
+</html>

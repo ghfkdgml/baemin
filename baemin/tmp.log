@@ -1,0 +1,1 @@
+UNIQUE constraint failed: auth_user.usernameUNIQUE constraint failed: auth_user.username
