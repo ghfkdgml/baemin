@@ -7,7 +7,7 @@
         {%csrf_token%}
         {{ form }}
       </div>
-      <button class="btn btn-default">메뉴 추가하기</button>
+      <button class="btn btn-default">메뉴 {% if edit %}수정{% else %}추가{% endif %}하기</button>
   </form>
   </div>
 </div>

@@ -64,20 +64,38 @@ def signup(request):
     }
     return render(request,"signup.html",ctx)
 
-def menu(request):
+def menu(request,menu_alter):
     ctx={}
+    print(menu_alter.split('_')[0])
     if request.method=="GET":
-        form= MenuForm()
-        ctx.update({"form":form})
-    elif request.method=="POST":
-        form= MenuForm(request.POST,request.FILES)
-        if form.is_valid():
-            menu=form.save(commit=False)
-            menu.partner=request.user.partner
-            menu.save()
-            return redirect("/menu_list")
+        if  menu_alter.split('_')[0]=='alter':
+            menu=Menu.objects.get(id=int(menu_alter.split('_')[1]))
+            form= MenuForm(instance=menu)
+            ctx.update({"form":form,"edit":"yes"})
         else:
+            form= MenuForm()
             ctx.update({"form":form})
+    elif request.method=="POST":
+        if  menu_alter.split('_')[0]=='alter':
+            menu=Menu.objects.get(id=int(menu_alter.split('_')[1]))
+            print(menu.price)
+            form= MenuForm(request.POST,request.FILES,instance=menu)
+            if form.is_valid():
+                menu=form.save(commit=False)
+                menu.partner=request.user.partner
+                menu.save()
+                return redirect("/menu_list")
+            else:
+                ctx.update({"form":form,"edit":"yes"})
+        else:
+            form= MenuForm(request.POST,request.FILES)
+            if form.is_valid():
+                menu=form.save(commit=False)
+                menu.partner=request.user.partner
+                menu.save()
+                return redirect("/menu_list")
+            else:
+                ctx.update({"form":form})
     return render(request,"menu.html",ctx)
 
 def menu_list(request):
