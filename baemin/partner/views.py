@@ -17,7 +17,7 @@ def index(request):
             partner=partner_form.save(commit=False)
             partner.user=request.user
             partner.save()
-            return redirect("/")
+            return redirect("/partner")
         else:
             ctx.update({"form":partner_form})
     return render(request,"index.html",ctx)
@@ -33,7 +33,7 @@ def login(request):
         if user is not None:
             authlogin(request,user)
             # return HttpResponseRedirect("/")
-            return redirect("/")
+            return redirect("/partner")
         else:
             messages.info(request,"user not exists!")
             return redirect("/login")
@@ -44,7 +44,7 @@ def login(request):
 
 def logout(request):
     authlogout(request)
-    return redirect("/")
+    return redirect("/partner")
 
 def signup(request):
     if request.method=="GET":
@@ -110,6 +110,13 @@ def menu_detail(request,menu_id):
     menu=Menu.objects.get(id=menu_id)
     ctx.update({"menu":menu})
     return render(request,"menu_detail.html",ctx)
+
+def menu_delete(request,menu_del):
+    ctx={}
+    menu=Menu.objects.get(id=menu_del)
+    menu.delete()
+    return redirect("/menu_list/")
+    # return render(request,"menu_detail.html",ctx)
 
 def edit_info(request):
     ctx={}
