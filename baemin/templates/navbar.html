@@ -9,22 +9,38 @@
           <li class="nav-item active">
             <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/menu_list/">메뉴</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">주문</a>
-          </li>
           {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">로그아웃</a>
-            </li>
+            {% if user.client %}
+              <li class="nav-item">
+                <a class="nav-link" href="/client/menu">메뉴</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">주문하기</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/partner/logout">로그아웃</a>
+              </li>
+            {% elif user.partner %}
+              <li class="nav-item">
+                <a class="nav-link" href="/partner/menu_list/">메뉴</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">주문현황</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/partner/logout">로그아웃</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/client/logout/">로그아웃</a>
+              </li>
+            {% endif %}
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="/login">로그인</a>
+            <a class="nav-link" href="/partner/login">로그인</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/signup">회원가입</a>
+            <a class="nav-link" href="/partner/signup">회원가입</a>
           </li>
           {% endif %}
         </ul>

@@ -1,0 +1,39 @@
+{% extends "base.html"%}
+{% block body %}
+<style>
+  th{
+    width:30%;
+  }
+  td{
+    width:30%;
+    height:auto;
+  }
+</style>
+<div class="container">
+  <div class="col-sm-8">
+    {% for menu in menu_list %}
+    {% csrf_token%}
+    <form method='post' class="form-signin" action="">
+      <table class="table">
+        <tr>
+          <th style="width:30%;">이미지</th>
+          <th>메뉴 이름</th>
+          <th>가격</th>
+          <th>수량</th>
+        </tr>
+        <tr>
+          <td><img style="max-width:100px;" src='{{menu.image.url}}'></td>
+          <td>{{menu.name}}</td>
+          <td>{{menu.price}}</td>
+          <td>
+              <input name="{{menu.id}}" value="0" type="number"/>
+          </td>
+          {% endfor %}
+        </tr>
+      </table>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">주문하기</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import PartnerForm,MenuForm
 from .models import Menu
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -33,10 +34,14 @@ def login(request):
         if user is not None:
             authlogin(request,user)
             # return HttpResponseRedirect("/")
-            return redirect("/partner")
+            next_value=request.GET.get("next")
+            if next_value:
+                return redirect(next_value)
+            else:
+                return redirect("/partner")
         else:
             messages.info(request,"user not exists!")
-            return redirect("/login")
+            return redirect("/partner/login")
 
 
     ctx={}
@@ -63,10 +68,12 @@ def signup(request):
 
     }
     return render(request,"signup.html",ctx)
-
+@login_required(login_url="/partner/login")
 def menu(request,menu_alter):
     ctx={}
-    print(menu_alter.split('_')[0])
+    # print(menu_alter.split('_')[0])
+    if  request.user.is_anonymous or request.user.partner is None:
+        return redirect("/partner")
     if request.method=="GET":
         if  menu_alter.split('_')[0]=='alter':
             menu=Menu.objects.get(id=int(menu_alter.split('_')[1]))
@@ -84,7 +91,7 @@ def menu(request,menu_alter):
                 menu=form.save(commit=False)
                 menu.partner=request.user.partner
                 menu.save()
-                return redirect("/menu_list")
+                return redirect("/partner/menu_list")
             else:
                 ctx.update({"form":form,"edit":"yes"})
         else:
@@ -93,29 +100,33 @@ def menu(request,menu_alter):
                 menu=form.save(commit=False)
                 menu.partner=request.user.partner
                 menu.save()
-                return redirect("/menu_list")
+                return redirect("/partner/menu_list")
             else:
                 ctx.update({"form":form})
     return render(request,"menu.html",ctx)
-
+    
+@login_required(login_url="/partner/login/")
 def menu_list(request):
     ctx={}
-
+    if  request.user.is_anonymous or request.user.partner is None:
+        return redirect("/partner")
     menu_list=Menu.objects.filter(partner=request.user.partner)
     ctx.update({"menu_list":menu_list})
     return render(request,"menu_list.html",ctx)
 
+@login_required(login_url="/partner/login/")
 def menu_detail(request,menu_id):
     ctx={}
     menu=Menu.objects.get(id=menu_id)
     ctx.update({"menu":menu})
     return render(request,"menu_detail.html",ctx)
 
+@login_required(login_url="/partner/login/")
 def menu_delete(request,menu_del):
     ctx={}
     menu=Menu.objects.get(id=menu_del)
     menu.delete()
-    return redirect("/menu_list/")
+    return redirect("/partner/menu_list/")
     # return render(request,"menu_detail.html",ctx)
 
 def edit_info(request):
@@ -131,5 +142,5 @@ def edit_info(request):
             partner=partner_form.save(commit=False)
             partner.user=request.user
             partner.save()
-            return redirect("/")
+            return redirect("/partner")
     return render(request,"edit_info.html",ctx)

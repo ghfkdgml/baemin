@@ -115,7 +115,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+SESSION_COOKIE_AGE = 1200
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

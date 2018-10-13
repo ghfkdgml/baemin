@@ -1,16 +1,63 @@
 {% extends "base.html"%}
 {% block body %}
-<div class="container">
+<!-- <div class="container">
   <div class="row">
-      {% for partner in partner_list %}
+      {% for client in client_list %}
         <div class="col-sm-6">
           <div>
-            {{ partner.name }}
-          </div>
-          <div>
-            {{partner.address}}
+            {{ client.name }}
           </div>
       {% endfor %}
     </div>
+</div> -->
+<div style="margin-top:60px" class="container">
+  {% if user.is_authenticated %}
+    {% if user.client %}
+    <div class="row">
+      <div class="col-sm-6 col-center">
+        <h1 style="text-align:center;color:grey">고객</h1>
+        <h2>{{ user.client.name }}</h2>님 환영합니다
+        <button class='btn btn-default'><a href="/client/logout">로그아웃</a></button>
+        <button class='btn btn-default'><a href="/client/edit_info">정보수정</a></button>
+        <table class="table">
+          <tr>
+            <th>고객명</th>
+            <td>{{ user.client.name }}</td>
+          </tr>
+          <tr>
+            <th>연락처</th>
+            <td>{{ user.client.contact }}</td>
+          </tr>
+          <tr>
+            <th>주소</th>
+            <td>{{ user.client.address }}</td>
+          </tr>
+          <tr>
+            <th>상세내용</th>
+            <td>{{ user.client.description }}</td>
+          </tr>
+        </table>
+      </div>
+  </div>
+    {% else %}
+      추가정보를 입력하세요.
+      <div class="row">
+        <div class="col-sm-6" style="margin-left:130px;margin-right:100px">
+          <form method="post" action="">
+            {% csrf_token %}
+            <!-- <div><input type="text" name="name"></div>
+            <div><input type="text" name="contract"></div>
+            <div><input type="text" name="address"></div>
+            <div><input type="text" name="description"></div> -->
+            {{ form.as_p }}
+            <button>저장하기</button>
+          </form>
+      </div>
+    </div>
+    {% endif %}
+  {% else %}
+  <div>로그인해주세요.</div>
+  <button><a href="/client/login">로그인</a></button>
+  {% endif %}
 </div>
 {% endblock %}
