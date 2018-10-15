@@ -13,3 +13,5 @@ class Menu(models.Model):
     image = models.ImageField(verbose_name="메뉴 이미지")
     name=models.CharField(verbose_name="메뉴 이름",max_length=50)
     price=models.PositiveIntegerField(verbose_name="메뉴 가격")
+    def __str__(self):
+        return self.partner.name +' '+self.name

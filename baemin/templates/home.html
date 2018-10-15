@@ -27,14 +27,14 @@
       {% if partner %}
         {% for part in partner %}
           <div class="col-md-8" style="margin-top:55px;">
-           <div><a href="/client/{{part.name}}" style="color:black;">{{part.name}}</a></div>
+           <div><a href="/client/menu_{{part.name}}" style="color:black;">{{part.name}}</a></div>
           </div>
          {%endfor%}
 
       {% else %}
         <div class="col-md-8" style="margin-top:55px;">
-          <button><a href="/client">Client</a></button>
-          <button><a href="/partner">Partner</a></button>
+          <button><a href="/client" style="color:black;">Client</a></button>
+          <button><a href="/partner" style="color:black;">Partner</a></button>
         </div>
       {% endif %}
     </div>

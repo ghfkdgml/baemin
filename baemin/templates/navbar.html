@@ -6,21 +6,24 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
           {% if user.is_authenticated %}
             {% if user.client %}
+              <li class="nav-item active">
+                <a class="nav-link" href="/client">Home <span class="sr-only">(current)</span></a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="/client/menu">메뉴</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">주문하기</a>
+                <a class="nav-link" href="/client/orderlist">주문확인</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/partner/logout">로그아웃</a>
               </li>
             {% elif user.partner %}
+              <li class="nav-item active">
+                <a class="nav-link" href="/partner">Home <span class="sr-only">(current)</span></a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="/partner/menu_list/">메뉴</a>
               </li>
@@ -36,6 +39,9 @@
               </li>
             {% endif %}
           {% else %}
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="/partner/login">로그인</a>
           </li>

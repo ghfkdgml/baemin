@@ -1,0 +1,48 @@
+{% extends "base.html"%}
+{% block body %}
+<script type="text/javascript">
+  function click_del(val){
+    var b=confirm("주문을 취소하시겠습니까?");
+    if(b==true){
+      location.href="/client/del_order?id="+val;
+    }
+
+  }
+  var result={{menu.menu.price}}*int({{menu.count}});
+</script>
+<div class="container">
+  <div class="col-sm-8">
+    <div style="height:60px;">
+      {% if menu_list %}
+      <table class="table">
+        <tr>
+          <th>메뉴</th>
+          <th>메뉴 이름</th>
+          <th>가격</th>
+          <th>수량</th>
+          <th>가격</th>
+        </tr>
+        {% for menus in menu_list %}
+          {%for menu in menus%}
+          <script>
+            var price={{menu.menu.price}};
+            var count={{menu.count}};
+            document.getElementsById("result").innerHTML=eval(price*count);
+          </script>
+            <tr>
+              <td><img style="max-width:100px;" src='{{menu.menu.image.url}}'></td>
+              <td>{{menu.menu.name}}</td>
+              <td>{{menu.menu.price}}</td>
+              <td>{{menu.count}}</td>
+              <td id="result"></td>
+              <td><button name="{{menu.id}}" value=" {{ menu.id }} " onclick="click_del(this.value)">주문 취소</button></td>
+            </tr>
+          {%endfor%}
+        {% endfor %}
+      </table>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

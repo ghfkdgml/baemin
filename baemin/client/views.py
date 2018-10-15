@@ -101,3 +101,39 @@ def menu_list(request,name):
     # menu_list=Menu.objects.filter(partner=name)
     # ctx.update({"menu_list":menu_list})
     return render(request,"client_menu.html",ctx)
+
+def order_check(request):
+    ctx={}
+    if request.user.client:
+        # print(request.user.client)
+        try:
+            orderlist=[]
+            username=request.user.client
+            userlist=Order.objects.filter(client=username)
+            for user in userlist:
+                menulist=OrderItem.objects.filter(order=user)
+                print(menulist)
+                orderlist.append(list(menulist))
+            print(orderlist)
+            # order=Order.objects.filter(client=username)
+            # for user in userlist:
+            #     menu_list=OrderItem.objects.filter(order=user)
+            #     orderlist.append(menu_list)
+            #     print(orderlist)
+            ctx.update({"menu_list":orderlist})
+        except Exception as e:
+            print(e)
+            pass
+    return render(request,"ordercheck.html",ctx)
+
+def delete_order(request):
+    ctx={}
+    id=request.GET['id']
+    if id:
+        order=OrderItem.objects.get(id=id)
+        order.delete()
+        return redirect("/client/orderlist")
+    else:
+        msg="delete order failed!"
+        ctx.update({"msg":msg})
+        return render(request,"ordercheck.html",ctx)
